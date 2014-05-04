@@ -1,0 +1,107 @@
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|  
+
+#Vagrant.require_plugin "vagrant-berkshelf"
+
+Vagrant::Config.run do |config|
+  # Berkshelf plugin configuration
+#  config.berkshelf.enabled = true 
+
+# config.vm.box = "precise64"
+#  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  config.vm.box = "raring64server"
+  config.vm.box_url = "http://goo.gl/Y4aRr"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 7000]
+ config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+ config.vm.network :bridged
+# Mysql server port
+  config.vm.forward_port 22, 9090
+  config.vm.forward_port 3306, 4306
+# Glassfish webserver admin console port
+  config.vm.forward_port 4848, 5858
+# Httpfs admin port
+  config.vm.forward_port 14001,14001
+# Hop admin console (secure)
+  config.vm.forward_port 8181, 9191
+
+# Spark Driver WebUI
+  config.vm.forward_port 4040, 4040
+  config.vm.forward_port 4041, 4041
+  config.vm.forward_port 4042, 4042
+  config.vm.forward_port 4043, 4043
+  config.vm.forward_port 4044, 4044
+  config.vm.forward_port 4045, 4045
+
+  #Collectd network plugin
+  config.vm.forward_port 25826,55826,{ :protocol => "udp"}
+
+   config.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "mysql" => {
+                    "server_root_password" => "kthfs"
+          },
+     "ndb" => {
+          "mgmd" => { 
+     	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "ndbd" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "mysqld" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "memcached" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+          "ndbapi" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+               },
+          "data_memory" => "48",
+          "public_ips" => ["10.0.2.15"],
+          "private_ips" => ["10.0.2.15"],
+          "enabled" => "true",
+     },
+     "dashboard" => {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+     },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     }
+
+      chef.add_recipe "java"
+      chef.add_recipe "openssh"
+      chef.add_recipe "openssl"
+
+      chef.add_recipe "python"
+      chef.add_recipe "hopagent"
+      
+      chef.add_recipe "ndb::install"
+      chef.add_recipe "ndb::mgmd"
+      chef.add_recipe "ndb::ndbd"
+      chef.add_recipe "ndb::mysqld"
+      chef.add_recipe "ndb::mysqld-ndb"
+      chef.add_recipe "ndb::memcached"
+
+      chef.add_recipe "ndb::mgmd-hop"
+      chef.add_recipe "ndb::ndbd-hop"
+      chef.add_recipe "ndb::mysqld-hop"
+      chef.add_recipe "ndb::memcached-hop"
+
+      chef.add_recipe "hopdashboard::populate-dbs"
+      chef.add_recipe "hopdashboard::kthfs"
+      chef.add_recipe "hopdashboard::populate-dbs-vagrant"
+
+  end 
+
+end

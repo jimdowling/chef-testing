@@ -1,0 +1,93 @@
+ #  _    _  ____  _____  
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|     
+                       
+Vagrant::Config.run do |config|
+  config.vm.box = "precise64"
+#  config.vm.box = "raring64server"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 6000]
+ config.vm.network :bridged
+
+# Mysql server port
+  config.vm.forward_port 3306, 4306
+# Glassfish webserver admin console port
+  config.vm.forward_port 4848, 5858
+# Hop admin console
+  config.vm.forward_port 8080, 9090
+# Hop admin console (secure)
+  config.vm.forward_port 8181, 9191
+# Collectd network plugin
+  config.vm.forward_port 25826,55826,{ :protocol => "udp"}
+
+  config.vm.provision :chef_solo, :log_level => :debug do |chef|
+    chef.log_level = :debug
+
+# TODO: Change cookbooks_path to berkshelf's home directory, where 
+# all cookbooks are installed
+    chef.cookbooks_path = "cookbooks"
+
+# Vagrant bug: https://github.com/mitchellh/vagrant/issues/2281
+# Uncomment next 2 lines, if failing because "/var/chef/cache" does not exist
+#    chef.provisioning_path = "/tmp/vagrant-chef-solo"
+#    chef.file_cache_path = chef.provisioning_path
+
+     chef.json = {
+     "btsync" =>	{
+     		 "bootstrap" => "true",
+                 "ndb" =>      { 
+	  	       "leechers" => ["10.0.2.15"],
+	  	       "seeder" => ["10.0.2.15"],
+	  	       "seeder_secret" => "AY27AAZKTKO3GONE6PBCZZRA6MKGRKBX2",
+	  	       "leecher_secret" => "BTHKJKK4PIPIOJZ7GITF2SJ2IYDLSSJVY"
+	       },
+          },
+     "collectd"  =>    {
+     		 "clients" => ["mysqld","nn", "dn", "rm", "nm"],
+     		 "server" => "10.0.2.15"
+         },
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "ndb" => {
+          "mgm_server" => { 
+     	  	       "addrs" => ["10.0.2.15"]
+	       },
+	  "ndbd" =>      { 
+	  	       "addrs" => ["10.0.2.15"]
+	       },
+          "ndbapi" =>    { 
+     	  	      "addrs" => ["10.0.2.15","10.0.2.15","10.0.2.15"]
+               },
+# You always have to set [:ndb][:ip] when starting ndbds, ndb_mgmds, mysqlds, memcacheds.
+          "ip" => "10.0.2.15",
+# The mysql_ip is used by HOPS Namenodes, not by the NDB recipe itself
+          "mysql_ip" => "10.0.2.15",
+          "data_memory" => "48",
+ 	  "num_ndb_slots_per_client" => "2"
+     },
+     "mysql"  =>    {
+                 "user" => "kthfs",
+                 "user_password" => "kthfs",
+ 		 "server_debian_password" => "kthfs",
+		 "server_root_password" => "kthfs",
+		 "server_repl_password" => "kthfs",
+                 "bind_address" => "10.0.2.15"
+          },
+     "hop"  =>    {
+     		 "ip" => "10.0.2.15",
+     		 "server" => "10.0.2.15:8080",
+     	         "cluster" => "vagrant",
+                 "hostid" => "10",
+                 "ndb_connectstring" => "10.0.2.15"
+          },
+     }
+
+     chef.add_recipe "cuneiform"
+  end 
+
+end

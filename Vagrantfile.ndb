@@ -1,0 +1,66 @@
+ #  _    _  ____  _____  
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|  
+
+Vagrant::Config.run do |config|
+#  config.vm.box = "precise64"
+#  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+ config.vm.box = "raring64server"
+ config.vm.box_url = "http://goo.gl/Y4aRr"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 7000]
+ config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+ config.vm.network :bridged
+# Glassfish webserver admin console port
+  config.vm.forward_port 4848, 5858
+# Hop admin console
+  config.vm.forward_port 8080, 9090
+# Hop admin console (secure)
+  config.vm.forward_port 8181, 9191
+
+   config.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "mysql" => {
+                    "server_root_password" => "kthfs"
+          },
+     "ndb" => {
+          "mgmd" => { 
+     	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "ndbd" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "mysqld" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "memcached" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+          "ndbapi" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+               },
+          "data_memory" => "48",
+          "public_ips" => ["10.0.2.15"],
+          "private_ips" => ["10.0.2.15"],
+          "enabled" => "true",
+     },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     }
+
+ 
+      chef.add_recipe "ndb::install"
+      chef.add_recipe "ndb::mgmd"
+      chef.add_recipe "ndb::ndbd"
+      chef.add_recipe "ndb::mysqld"
+      chef.add_recipe "ndb::mysqld-ndb"
+      chef.add_recipe "ndb::memcached"
+
+  end 
+
+end

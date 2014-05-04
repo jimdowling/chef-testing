@@ -1,0 +1,131 @@
+ #  _    _  ____  _____  
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|  
+
+Vagrant::Config.run do |config|
+  config.vm.box = "centos6_3"
+  config.vm.box_url = "https://s3.amazonaws.com/itmat-public/centos-6.3-chef-10.14.2.box"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 7000]
+ config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+
+# For centos, i may need to remove eth1 references in /etc/udev/rules.d/70-persistent-net.rules
+# and remove /etc/sysconfig/network-scripts/ifcfg-eth1
+
+ config.vm.network :bridged
+# Glassfish webserver admin console port
+  config.vm.forward_port 4848, 5858
+# Hop admin console
+  config.vm.forward_port 8080, 9090
+# Hop admin console (secure)
+  config.vm.forward_port 8181, 9191
+
+   config.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "btsync" =>	{
+     		 "bootstrap" => "true",
+                 "ndb" =>      { 
+	  	       "leechers" => ["10.0.2.15"],
+	  	       "seeder_secret" => "AY27AAZKTKO3GONE6PBCZZRA6MKGRKBX2",
+	  	       "leecher_secret" => "BTHKJKK4PIPIOJZ7GITF2SJ2IYDLSSJVY",
+	       },
+          },
+     "mysql" => {
+                    "server_root_password" => "kthfs"
+          },
+     "ndb" => {
+          "mgmd" => { 
+     	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "ndbd" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "mysqld" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+	  "memcached" =>      { 
+   	  	       "private_ips" => ["10.0.2.15"]
+	       },
+          "ndbapi" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+               },
+          "data_memory" => "48",
+          "public_ips" => ["10.0.2.15"],
+          "private_ips" => ["10.0.2.15"],
+     },
+     "dashboard" => {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+     },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     "instance_role" => "vagrant",
+     "collectd"  =>    {
+# DN - jmx metrics disabled for hdfs 2.2. Now available at REST api http://localhost:50075/jmx via JSON
+     		 "clients" => ["mysqld","nn", "rm", "nm"],
+     		 "private_ips" => "[10.0.2.15]",
+     		 "public_ips" => "[10.0.2.15]"
+         },
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "hop"  =>    {
+     	         "cluster" => "vagrant",
+                 "hostid" => "10",
+		 "rm" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+                 },
+		 "nn" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+                 },
+		 "dn" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+                 },
+		 "nm" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+                 },
+		 "historyserver" =>    { 
+       	  	      "private_ips" => ["10.0.2.15"]
+                 },
+          },
+     }
+ 
+      chef.add_recipe "java"
+      chef.add_recipe "openssh"
+      chef.add_recipe "openssl"
+
+      chef.add_recipe "python"
+      chef.add_recipe "hopagent"
+
+     chef.add_recipe "ndb::btsync"
+     chef.add_recipe "ndb::install"
+     chef.add_recipe "ndb::mgmd"
+     chef.add_recipe "ndb::ndbd"
+     chef.add_recipe "ndb::mysqld"
+     chef.add_recipe "ndb::mysqld-ndb"
+      chef.add_recipe "ndb::memcached"
+
+       chef.add_recipe "ndb::mgmd-hop"
+       chef.add_recipe "ndb::ndbd-hop"
+       chef.add_recipe "ndb::mysqld-hop"
+     chef.add_recipe "ndb::memcached-hop"
+
+      chef.add_recipe "glassfish::populate-dbs"
+      chef.add_recipe "glassfish::kthfs"
+      chef.add_recipe "glassfish::populate-dbs-vagrant"
+
+      chef.add_recipe "hop::nn"
+      chef.add_recipe "hop::dn"
+      chef.add_recipe "hop::rm"
+      chef.add_recipe "hop::nm"
+      chef.add_recipe "hop::historyserver"
+
+  end 
+
+end

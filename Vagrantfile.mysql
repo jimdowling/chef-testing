@@ -1,0 +1,129 @@
+ #  _    _  ____  _____  
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|  
+
+Vagrant::Config.run do |config|
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+#  config.vm.box = "raring64server"
+#  config.vm.box_url = "http://goo.gl/Y4aRr"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 16000]
+ config.vm.customize ["modifyvm", :id, "--cpus", "3"]
+ config.vm.network :bridged
+# Mysql server port
+  config.vm.forward_port 22, 9090
+  config.vm.forward_port 3306, 4306
+# Glassfish webserver admin console port
+  config.vm.forward_port 4848, 5858
+# ssh port 
+# Hop admin console (secure)
+  config.vm.forward_port 8181, 9191
+
+  #Collectd network plugin
+  config.vm.forward_port 25826,55826,{ :protocol => "udp"}
+
+   config.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "btsync" =>	{
+     		 "bootstrap" => "true",
+                 "ndb" =>      { 
+	  	       "leechers" => ["10.0.2.15"],
+	  	       "seeder" => ["10.0.2.15"],
+	  	       "seeder_secret" => "AY27AAZKTKO3GONE6PBCZZRA6MKGRKBX2",
+	  	       "leecher_secret" => "BTHKJKK4PIPIOJZ7GITF2SJ2IYDLSSJVY"
+	       },
+          },
+     "collectd"  =>    {
+# DN - jmx metrics disabled for hdfs 2.2. Now available at REST api http://localhost:50075/jmx via JSON
+     		 "clients" => ["mysqld","nn", "rm", "nm"],
+     		 "server" => "10.0.2.15"
+         },
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "ndb" => {
+          "mgm_server" => { 
+     	  	       "addrs" => ["10.0.2.15"]
+	       },
+	  "ndbd" =>      { 
+	  	       "addrs" => ["10.0.2.15"]
+	       },
+          "ndbapi" =>    { 
+     	  	      "addrs" => ["10.0.2.15","10.0.2.15","10.0.2.15"]
+               },
+# You always have to set [:ndb][:ip] when starting ndbds, ndb_mgmds, mysqlds, memcacheds.
+          "ip" => "10.0.2.15",
+# The mysql_ip is used by HOPS Namenodes, not by the NDB recipe itself
+          "mysql_ip" => "10.0.2.15",
+          "data_memory" => "48",
+ 	  "num_ndb_slots_per_client" => "2"
+     },
+     "mysql"  =>    {
+                 "user" => "kthfs",
+                 "user_password" => "kthfs",
+ 		 "server_debian_password" => "kthfs",
+		 "server_root_password" => "kthfs",
+		 "server_repl_password" => "kthfs",
+                 "bind_address" => "10.0.2.15",
+                 "root_network_acl" => "10.0.2.15" 
+          },
+     "hop"  =>    {
+     		 "ip" => "10.0.2.15",
+     		 "server" => "10.0.2.15:8080",
+     	         "cluster" => "vagrant",
+                 "hostid" => "10",
+                 "ndb_connectstring" => "10.0.2.15"
+          },
+     }
+
+     chef.add_recipe  "apt"
+      chef.add_recipe "authbind"
+      chef.add_recipe "java"
+      chef.add_recipe "openssh"
+      chef.add_recipe "openssl"
+      chef.add_recipe "collectd::server"
+
+      chef.add_recipe "python"
+      chef.add_recipe "hopagent"
+
+      chef.add_recipe "ndb::install"
+      chef.add_recipe "ndb::mgmd"
+      chef.add_recipe "ndb::ndbd"
+      chef.add_recipe "ndb::mysqld"
+      chef.add_recipe "ndb::memcached"
+
+      chef.add_recipe "collectd::attr-driven"
+      chef.add_recipe "ndb::mgmd-hop"
+      chef.add_recipe "ndb::ndbd-hop"
+      chef.add_recipe "ndb::mysqld-hop"
+      chef.add_recipe "ndb::memcached-hop"
+
+#     chef.add_recipe "mysql::server"
+
+     chef.add_recipe "glassfish::populate-dbs"
+     chef.add_recipe "glassfish::kthfs"
+     #chef.add_recipe "glassfish::populate-dbs-vagrant"
+
+      chef.add_recipe "hop::nn"
+      chef.add_recipe "hop::dn"
+      chef.add_recipe "hop::rm"
+      chef.add_recipe "hop::nm"
+      chef.add_recipe "hop::historyserver"
+
+     #chef.add_recipe "cuneiform"
+#     chef.add_recipe "cuneiform::download"
+
+#     chef.add_recipe "spark"
+
+     chef.add_recipe "hopagent::restart"
+
+  end 
+
+end

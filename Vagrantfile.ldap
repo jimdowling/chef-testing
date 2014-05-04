@@ -1,0 +1,74 @@
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|  
+
+Vagrant::Config.run do |config|
+
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+
+ config.vm.customize ["modifyvm", :id, "--memory", 6000]
+ config.vm.customize ["modifyvm", :id, "--cpus", "2"]
+ config.vm.network :bridged
+ config.vm.forward_port 22, 9090
+ config.vm.forward_port 389, 3890
+
+
+ config.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "ndb" => {
+          "enabled" => "true",
+          "mgm_server" => { 
+     	  	       "addrs" => ["10.0.2.15"]
+	       },
+	  "ndbd" =>      { 
+	  	       "addrs" => ["10.0.2.15"]
+	       },
+          "ndbapi" =>    { 
+     	  	      "addrs" => ["10.0.2.15","10.0.2.15","10.0.2.15"]
+               },
+# You always have to set [:ndb][:ip] when starting ndbds, ndb_mgmds, mysqlds, memcacheds.
+          "ip" => "10.0.2.15",
+# The mysql_ip is used by HOPS Namenodes, not by the NDB recipe itself
+          "mysql_ip" => "10.0.2.15",
+          "data_memory" => "48",
+ 	  "num_ndb_slots_per_client" => "2"
+     },
+     "mysql"  =>    {
+                 "user" => "kthfs",
+                 "user_password" => "kthfs",
+ 		 "server_debian_password" => "kthfs",
+		 "server_root_password" => "kthfs",
+		 "server_repl_password" => "kthfs",
+                 "bind_address" => "10.0.2.15",
+                 "root_network_acl" => "10.0.2.15" 
+          },
+     "dashboard"  =>    {
+     		 "public_ip" => "10.0.2.15",
+     		 "private_ip" => "10.0.2.15"
+          },
+   #  "openldap"  =>    {
+    # 		 "slapd_type" => "master",
+     #		 "manage_ssl" => false
+      #    },
+     }
+
+
+      chef.add_recipe "apt"
+      chef.add_recipe "openssh"
+      chef.add_recipe "openssl"
+      chef.add_recipe "nscd"
+      chef.add_recipe "selfsigned_certificate"
+      chef.add_recipe "openldap-server"
+   
+     end 
+
+end
