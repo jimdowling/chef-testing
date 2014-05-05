@@ -141,7 +141,6 @@ Vagrant::Config.run do |config|
       chef.add_recipe "hopagent"
       chef.add_recipe "collectd::server"
 
-      chef.add_recipe "ndb::btsync"
       chef.add_recipe "ndb::install"
       chef.add_recipe "ndb::mgmd"
       chef.add_recipe "ndb::ndbd"
