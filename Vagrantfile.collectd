@@ -129,7 +129,7 @@ Vagrant::Config.run do |config|
 		 "nm" =>    { 
        	  	      "private_ips" => ["10.0.2.15"]
                  },
-		 "historyserver" =>    { 
+		 "jhs" =>    { 
        	  	      "private_ips" => ["10.0.2.15"]
                  },
           },
@@ -169,7 +169,7 @@ Vagrant::Config.run do |config|
       chef.add_recipe "hop::dn"
       chef.add_recipe "hop::rm"
       chef.add_recipe "hop::nm"
-      chef.add_recipe "hop::historyserver"
+      chef.add_recipe "hop::jhs"
 
   end 
 
