@@ -106,9 +106,9 @@ Vagrant::Config.run do |config|
 
       chef.add_recipe "collectd::attr-driven"
 
-     chef.add_recipe "glassfish::populate-dbs"
-     chef.add_recipe "glassfish::kthfs"
-     chef.add_recipe "glassfish::populate-dbs-vagrant"
+     chef.add_recipe "hopdashboard::populate-dbs"
+     chef.add_recipe "hopdashboard::kthfs"
+     chef.add_recipe "hopdashboard::populate-dbs-vagrant"
 
      chef.add_recipe "hopagent::restart"
 
