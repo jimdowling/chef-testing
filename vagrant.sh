@@ -13,6 +13,10 @@ if [ "$1" == "destroy" ] ; then
   exit 0
 fi
 
+echo "****************"
+echo "Your Vagrant VM will be run from:"
+echo "/tmp/hop"
+echo "****************"
 cookbook=$1
 
 pushd .
