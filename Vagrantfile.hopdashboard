@@ -79,10 +79,6 @@ Vagrant::Config.run do |config|
          },
      }
 
-      chef.add_recipe "java"
-      chef.add_recipe "openssh"
-      chef.add_recipe "openssl"
-
       chef.add_recipe "python"
       chef.add_recipe "hopagent"
       
@@ -90,18 +86,10 @@ Vagrant::Config.run do |config|
       chef.add_recipe "ndb::mgmd"
       chef.add_recipe "ndb::ndbd"
       chef.add_recipe "ndb::mysqld"
-      chef.add_recipe "ndb::mysqld-ndb"
       chef.add_recipe "ndb::memcached"
 
-      chef.add_recipe "ndb::mgmd-hop"
-      chef.add_recipe "ndb::ndbd-hop"
-      chef.add_recipe "ndb::mysqld-hop"
-      chef.add_recipe "ndb::memcached-hop"
-
-      chef.add_recipe "hopdashboard::populate-dbs"
-      chef.add_recipe "hopdashboard::kthfs"
-      chef.add_recipe "hopdashboard::populate-dbs-vagrant"
-
+      chef.add_recipe "hopdashboard::install"
+      chef.add_recipe "hopdashboard"
   end 
 
 end

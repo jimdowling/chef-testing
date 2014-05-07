@@ -54,7 +54,6 @@ Vagrant::Config.run do |config|
       chef.add_recipe "ndb::mgmd"
       chef.add_recipe "ndb::ndbd"
       chef.add_recipe "ndb::mysqld"
-      chef.add_recipe "ndb::mysqld-ndb"
       chef.add_recipe "ndb::memcached"
 
   end 

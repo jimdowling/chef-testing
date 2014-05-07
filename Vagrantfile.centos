@@ -117,7 +117,7 @@ Vagrant::Config.run do |config|
      chef.add_recipe "ndb::memcached-hop"
 
       chef.add_recipe "hopdashboard::populate-dbs"
-      chef.add_recipe "hopdashboard::kthfs"
+      chef.add_recipe "hopdashboard"
       chef.add_recipe "hopdashboard::populate-dbs-vagrant"
 
       chef.add_recipe "hop::nn"
