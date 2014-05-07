@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rm nohup.out
-
 set -e
 
 if [ $# -ne 1 ] ; then
