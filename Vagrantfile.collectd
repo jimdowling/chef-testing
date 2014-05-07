@@ -135,11 +135,7 @@ Vagrant::Config.run do |config|
           },
      }
 
-      chef.add_recipe "java"
-      chef.add_recipe "openssh"
-      chef.add_recipe "openssl"
-
-      chef.add_recipe "python"
+      chef.add_recipe "hopagent::install"
       chef.add_recipe "hopagent"
       
       chef.add_recipe "collectd::server"
@@ -151,24 +147,18 @@ Vagrant::Config.run do |config|
       chef.add_recipe "ndb::memcached"
 
        chef.add_recipe "collectd::mysqld"
-       chef.add_recipe "collectd::nn"
-       chef.add_recipe "collectd::rm"
-       chef.add_recipe "collectd::nm"
 
-      chef.add_recipe "ndb::mgmd-hop"
-      chef.add_recipe "ndb::ndbd-hop"
-      chef.add_recipe "ndb::mysqld-hop"
-      chef.add_recipe "ndb::memcached-hop"
-
-      chef.add_recipe "hopdashboard::populate-dbs"
+      chef.add_recipe "hopdashboard::install"
       chef.add_recipe "hopdashboard"
-      chef.add_recipe "hopdashboard::populate-dbs-vagrant"
 
       chef.add_recipe "hop::nn"
       chef.add_recipe "hop::dn"
       chef.add_recipe "hop::rm"
       chef.add_recipe "hop::nm"
       chef.add_recipe "hop::jhs"
+       chef.add_recipe "collectd::nn"
+       chef.add_recipe "collectd::rm"
+       chef.add_recipe "collectd::nm"
 
   end 
 
