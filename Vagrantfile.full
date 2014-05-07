@@ -100,8 +100,6 @@ Vagrant::Config.run do |config|
 	  "public_ips" => ["10.0.2.15"],
   	  "private_ips" => ["10.0.2.15"],
      },
-     "public_ips" => ["10.0.2.15"],
-     "private_ips" => ["10.0.2.15"],
      "collectd"  =>    {
 # DN - jmx metrics disabled for hdfs 2.2. Now available at REST api http://localhost:50075/jmx via JSON
      		 "clients" => ["mysqld","nn", "rm", "nm"],
@@ -132,10 +130,11 @@ Vagrant::Config.run do |config|
        	  	      "private_ips" => ["10.0.2.15"]
                  },
           },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     "vagrant"     => "true",
      }
 
- #     chef.add_recipe "openssh"
- #     chef.add_recipe "openssl"
 
       chef.add_recipe "hopagent"
       
@@ -147,11 +146,6 @@ Vagrant::Config.run do |config|
       chef.add_recipe "ndb::mysqld"
       chef.add_recipe "ndb::memcached"
 
-       chef.add_recipe "collectd::mysqld"
-       chef.add_recipe "collectd::nn"
-       chef.add_recipe "collectd::rm"
-       chef.add_recipe "collectd::nm"
-
       chef.add_recipe "hopdashboard::install"
       chef.add_recipe "hopdashboard"
 
@@ -162,6 +156,10 @@ Vagrant::Config.run do |config|
       chef.add_recipe "hop::jhs"
       #chef.add_recipe "hop::ps"
 
+      chef.add_recipe "collectd::mysqld"
+      chef.add_recipe "collectd::nn"
+      chef.add_recipe "collectd::rm"
+      chef.add_recipe "collectd::nm"
 
   end 
 

@@ -70,15 +70,15 @@ Vagrant::Config.run do |config|
 	  "public_ips" => ["10.0.2.15"],
   	  "private_ips" => ["10.0.2.15"],
      },
-     "public_ips" => ["10.0.2.15"],
-     "private_ips" => ["10.0.2.15"],
      "hopagent"  =>    {
                  "agent_user" => "hopagent@sics.se",
                  "agent_password" => "hopagent"
          },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     "vagrant"     => "true",
      }
 
-      chef.add_recipe "python"
       chef.add_recipe "hopagent"
       
       chef.add_recipe "ndb::install"

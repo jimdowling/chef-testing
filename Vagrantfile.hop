@@ -140,9 +140,6 @@ Vagrant::Config.run do |config|
 
       chef.add_recipe "collectd::server"
        chef.add_recipe "collectd::mysqld"
-       chef.add_recipe "collectd::nn"
-       chef.add_recipe "collectd::rm"
-       chef.add_recipe "collectd::nm"
 
       chef.add_recipe "hopdashboard::install"
       chef.add_recipe "hopdashboard"
@@ -152,6 +149,9 @@ Vagrant::Config.run do |config|
       chef.add_recipe "hop::rm"
       chef.add_recipe "hop::nm"
       chef.add_recipe "hop::jhs"
+       chef.add_recipe "collectd::nn"
+       chef.add_recipe "collectd::rm"
+       chef.add_recipe "collectd::nm"
   end 
 
 end

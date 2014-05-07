@@ -27,12 +27,9 @@ Vagrant::Config.run do |config|
      chef.json = {
        "public_ips" => ["10.0.2.15"],
        "private_ips" => ["10.0.2.15"],
+       "vagrant"     => "true",
      }
 
-#      chef.add_recipe "openssh"
-#      chef.add_recipe "openssl"
-
-      chef.add_recipe "python"
       chef.add_recipe "hopagent"
  
   end 
