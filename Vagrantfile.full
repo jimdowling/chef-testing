@@ -136,6 +136,7 @@ Vagrant::Config.run do |config|
      }
 
 
+      chef.add_recipe "hopagent::install"
       chef.add_recipe "hopagent"
       
       chef.add_recipe "collectd::server"

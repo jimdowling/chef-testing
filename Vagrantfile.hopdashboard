@@ -79,6 +79,7 @@ Vagrant::Config.run do |config|
      "vagrant"     => "true",
      }
 
+      chef.add_recipe "hopagent::install"
       chef.add_recipe "hopagent"
       
       chef.add_recipe "ndb::install"
