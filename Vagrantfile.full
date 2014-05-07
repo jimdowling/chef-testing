@@ -96,7 +96,7 @@ Vagrant::Config.run do |config|
           "private_ips" => ["10.0.2.15"],
           "enabled" => "true",
      },
-     "dashboard" => {
+     "hopdashboard" => {
 	  "public_ips" => ["10.0.2.15"],
   	  "private_ips" => ["10.0.2.15"],
      },
@@ -134,11 +134,9 @@ Vagrant::Config.run do |config|
           },
      }
 
-      chef.add_recipe "java"
-      chef.add_recipe "openssh"
-      chef.add_recipe "openssl"
+ #     chef.add_recipe "openssh"
+ #     chef.add_recipe "openssl"
 
-      chef.add_recipe "python"
       chef.add_recipe "hopagent"
       
       chef.add_recipe "collectd::server"
@@ -154,14 +152,8 @@ Vagrant::Config.run do |config|
        chef.add_recipe "collectd::rm"
        chef.add_recipe "collectd::nm"
 
-      chef.add_recipe "ndb::mgmd-hop"
-      chef.add_recipe "ndb::ndbd-hop"
-      chef.add_recipe "ndb::mysqld-hop"
-      chef.add_recipe "ndb::memcached-hop"
-
-      chef.add_recipe "hopdashboard::populate-dbs"
+      chef.add_recipe "hopdashboard::install"
       chef.add_recipe "hopdashboard"
-      chef.add_recipe "hopdashboard::populate-dbs-vagrant"
 
       chef.add_recipe "hop::nn"
       chef.add_recipe "hop::dn"
@@ -170,8 +162,6 @@ Vagrant::Config.run do |config|
       chef.add_recipe "hop::jhs"
       #chef.add_recipe "hop::ps"
 
-      #chef.add_recipe "spark"
-      #chef.add_recipe "stratosphere"
 
   end 
 

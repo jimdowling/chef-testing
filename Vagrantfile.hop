@@ -93,7 +93,7 @@ Vagrant::Config.run do |config|
           "private_ips" => ["10.0.2.15"],
           "enabled" => "true",
      },
-     "dashboard" => {
+     "hopdashboard" => {
 	  "public_ips" => ["10.0.2.15"],
   	  "private_ips" => ["10.0.2.15"],
      },

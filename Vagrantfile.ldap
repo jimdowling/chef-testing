@@ -51,7 +51,7 @@ Vagrant::Config.run do |config|
                  "bind_address" => "10.0.2.15",
                  "root_network_acl" => "10.0.2.15" 
           },
-     "dashboard"  =>    {
+     "hopdashboard"  =>    {
      		 "public_ip" => "10.0.2.15",
      		 "private_ip" => "10.0.2.15"
           },
