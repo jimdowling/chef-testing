@@ -54,9 +54,9 @@ Vagrant::Config.run do |config|
           "ndbapi" =>    { 
        	  	      "private_ips" => ["10.0.2.15"]
                },
-          "data_memory" => "48",
           "public_ips" => ["10.0.2.15"],
           "private_ips" => ["10.0.2.15"],
+          "enabled" => "true",
      },
      "dashboard" => {
 	  "public_ips" => ["10.0.2.15"],
@@ -108,7 +108,6 @@ Vagrant::Config.run do |config|
      chef.add_recipe "ndb::mgmd"
      chef.add_recipe "ndb::ndbd"
      chef.add_recipe "ndb::mysqld"
-     chef.add_recipe "ndb::mysqld-ndb"
       chef.add_recipe "ndb::memcached"
 
        chef.add_recipe "ndb::mgmd-hop"

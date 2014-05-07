@@ -25,31 +25,8 @@ Vagrant::Config.run do |config|
      chef.log_level = :debug
      chef.cookbooks_path = "cookbooks"
      chef.json = {
-     "mysql" => {
-                    "server_root_password" => "kthfs"
-          },
-     "ndb" => {
-          "mgmd" => { 
-     	  	       "private_ips" => ["10.0.2.15"]
-	       },
-	  "ndbd" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
-	       },
-	  "mysqld" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
-	       },
-	  "memcached" =>      { 
-   	  	       "private_ips" => ["10.0.2.15"]
-	       },
-          "ndbapi" =>    { 
-       	  	      "private_ips" => ["10.0.2.15"]
-               },
-          "data_memory" => "48",
-          "public_ips" => ["10.0.2.15"],
-          "private_ips" => ["10.0.2.15"],
-     },
-     "public_ips" => ["10.0.2.15"],
-     "private_ips" => ["10.0.2.15"],
+       "public_ips" => ["10.0.2.15"],
+       "private_ips" => ["10.0.2.15"],
      }
 
 #      chef.add_recipe "openssh"
