@@ -136,11 +136,16 @@ Vagrant::Config.run do |config|
      }
 
       chef.add_recipe "hopagent::install"
+      chef.add_recipe "ndb::install"
+      chef.add_recipe "collectd::install"
+      chef.add_recipe "hopdashboard::install"
+      chef.add_recipe "hop::install"
+
+
       chef.add_recipe "hopagent"
       
       chef.add_recipe "collectd::server"
 
-      chef.add_recipe "ndb::install"
       chef.add_recipe "ndb::mgmd"
       chef.add_recipe "ndb::ndbd"
       chef.add_recipe "ndb::mysqld"
@@ -148,7 +153,6 @@ Vagrant::Config.run do |config|
 
        chef.add_recipe "collectd::mysqld"
 
-      chef.add_recipe "hopdashboard::install"
       chef.add_recipe "hopdashboard"
 
       chef.add_recipe "hop::nn"
