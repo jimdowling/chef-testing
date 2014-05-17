@@ -27,6 +27,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 14001,14001
 # Hop admin console (secure)
   config.vm.forward_port 8181, 9191
+# collectd networking - 25826
 
 # Spark Driver WebUI
   config.vm.forward_port 4040, 4040

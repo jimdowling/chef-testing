@@ -6,13 +6,13 @@
 
 
 Vagrant::Config.run do |config|
-  config.vm.box = "centos6_3"
-  config.vm.box_url = "https://s3.amazonaws.com/itmat-public/centos-6.3-chef-10.14.2.box"
+#  config.vm.box = "centos6_3"
+#  config.vm.box_url = "https://s3.amazonaws.com/itmat-public/centos-6.3-chef-10.14.2.box"
 
 #  config.vm.box = "precise64"
 #  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-#  config.vm.box = "raring64server"
-#  config.vm.box_url = "http://goo.gl/Y4aRr"
+  config.vm.box = "raring64server"
+  config.vm.box_url = "http://goo.gl/Y4aRr"
 
  config.vm.customize ["modifyvm", :id, "--memory", 7000]
  config.vm.customize ["modifyvm", :id, "--cpus", "1"]

@@ -1,0 +1,106 @@
+ # | |  | |/ __ \|  __ \ 
+ # | |__| | |  | | |__) |
+ # |  __  | |  | |  ___/ 
+ # | |  | | |__| | |     
+ # |_|  |_|\____/|_|  
+
+
+Vagrant::Config.run do |config|
+
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+config.vm.box = "raring64server"
+config.vm.box_url = "http://goo.gl/Y4aRr"
+
+  config.vm.define "vm1", primary: true do |vm1|
+    vm1.vm.forward_port 4848, 5858
+    vm1.vm.forward_port 8181, 9191
+    vm1.vm.network :private_network, ip: "192.168.33.11"
+    vm1.vm.customize ["modifyvm", :id, "--memory", "2000"]
+
+   vm1.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "hopdashboard" => {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+     },
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     }
+
+     chef.add_recipe "hopagent::install"
+     chef.add_recipe "caracaldb::install"
+     chef.add_recipe "hopagent"
+     chef.add_recipe "caracaldb"
+   end 
+
+  end
+
+  config.vm.define "vm2" do |vm2|
+    vm2.vm.network :private_network, ip: "192.168.33.12"
+    vm2.vm.customize ["modifyvm", :id, "--memory", "2000"]
+
+   vm2.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "hopdashboard" => {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+     },
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     }
+
+     chef.add_recipe "hopagent::install"
+     chef.add_recipe "caracaldb::install"
+     chef.add_recipe "hopagent"
+     chef.add_recipe "caracaldb"
+   end 
+
+
+  end
+
+  config.vm.define "vm3" do |vm3|
+    vm3.vm.network :private_network, ip: "192.168.33.13"
+    vm3.vm.customize ["modifyvm", :id, "--memory", "2000"]
+
+
+   vm3.vm.provision :chef_solo, :log_level => :debug do |chef|
+     chef.log_level = :debug
+     chef.cookbooks_path = "cookbooks"
+     chef.json = {
+     "hopdashboard" => {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+     },
+     "hopagent"  =>    {
+                 "agent_user" => "hopagent@sics.se",
+                 "agent_password" => "hopagent"
+         },
+     "public_ips" => ["10.0.2.15"],
+     "private_ips" => ["10.0.2.15"],
+     }
+
+     chef.add_recipe "hopagent::install"
+     chef.add_recipe "caracaldb::install"
+     chef.add_recipe "hopagent"
+     chef.add_recipe "caracaldb"
+   end 
+
+
+  end
+
+
+end
