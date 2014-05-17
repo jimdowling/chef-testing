@@ -31,13 +31,19 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
                  "agent_user" => "hopagent@sics.se",
                  "agent_password" => "hopagent"
          },
+     "caracaldb"  => {
+                    "bootstrap" => {
+                       "public_ips" => ["192.168.33.11"],
+                       "private_ips" => ["192.168.33.11"],
+                    {
+      },
      "public_ips" => ["10.0.2.15"],
      "private_ips" => ["10.0.2.15"],
      }
 
-     chef.add_recipe "hopagent::install"
+ #    chef.add_recipe "hopagent::install"
      chef.add_recipe "caracaldb::install"
-     chef.add_recipe "hopagent"
+ #    chef.add_recipe "hopagent"
      chef.add_recipe "caracaldb"
    end 
 
@@ -59,13 +65,17 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
                  "agent_user" => "hopagent@sics.se",
                  "agent_password" => "hopagent"
          },
+     "caracaldb"  => {
+                    "bootstrap" => {
+                       "public_ips" => ["192.168.33.11"],
+                       "private_ips" => ["192.168.33.11"],
+                    {
+      },
      "public_ips" => ["10.0.2.15"],
      "private_ips" => ["10.0.2.15"],
      }
 
-     chef.add_recipe "hopagent::install"
      chef.add_recipe "caracaldb::install"
-     chef.add_recipe "hopagent"
      chef.add_recipe "caracaldb"
    end 
 
@@ -85,6 +95,12 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
 	  "public_ips" => ["10.0.2.15"],
   	  "private_ips" => ["10.0.2.15"],
      },
+     "caracaldb"  => {
+                       "bootstrap" => {
+	                   "public_ips" => ["192.168.33.11"],
+  	                   "private_ips" => ["192.168.33.11"],
+                        {
+                     },
      "hopagent"  =>    {
                  "agent_user" => "hopagent@sics.se",
                  "agent_password" => "hopagent"
@@ -93,9 +109,7 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
      "private_ips" => ["10.0.2.15"],
      }
 
-     chef.add_recipe "hopagent::install"
      chef.add_recipe "caracaldb::install"
-     chef.add_recipe "hopagent"
      chef.add_recipe "caracaldb"
    end 
 
