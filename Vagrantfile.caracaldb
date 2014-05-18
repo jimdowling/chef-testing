@@ -9,23 +9,31 @@ Vagrant::Config.run do |config|
 
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+#VAGRANTFILE_API_VERSION = "2"
+#Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 config.vm.box = "raring64server"
 config.vm.box_url = "http://goo.gl/Y4aRr"
 
   config.vm.define "vm1", primary: true do |vm1|
-    vm1.vm.forward_port 4848, 5858
-    vm1.vm.forward_port 8181, 9191
+    vm1.vm.forward_port 8181, 10101
+    vm1.vm.forward_port 22, 9922
     vm1.vm.network :private_network, ip: "192.168.33.11"
     vm1.vm.customize ["modifyvm", :id, "--memory", "2000"]
+
+#   vm1.vm.provider :virtualbox do |vb|
+#     vb.customize ["modifyvm", :id, "--memory", "2000"]
+#    end
 
    vm1.vm.provision :chef_solo, :log_level => :debug do |chef|
      chef.log_level = :debug
      chef.cookbooks_path = "cookbooks"
      chef.json = {
+     "public_ips" => ["192.168.33.11"],
+     "private_ips" => ["192.168.33.11"],
      "hopdashboard" => {
-	  "public_ips" => ["10.0.2.15"],
-  	  "private_ips" => ["10.0.2.15"],
+	  "public_ips" => ["192.168.33.11"],
+  	  "private_ips" => ["192.168.33.11"],
      },
      "hopagent"  =>    {
                  "agent_user" => "hopagent@sics.se",
@@ -35,10 +43,8 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
                     "bootstrap" => {
                        "public_ips" => ["192.168.33.11"],
                        "private_ips" => ["192.168.33.11"],
-                    {
+                    }
       },
-     "public_ips" => ["10.0.2.15"],
-     "private_ips" => ["10.0.2.15"],
      }
 
  #    chef.add_recipe "hopagent::install"
@@ -52,14 +58,17 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
   config.vm.define "vm2" do |vm2|
     vm2.vm.network :private_network, ip: "192.168.33.12"
     vm2.vm.customize ["modifyvm", :id, "--memory", "2000"]
+    vm2.vm.forward_port 22, 9923
 
    vm2.vm.provision :chef_solo, :log_level => :debug do |chef|
      chef.log_level = :debug
      chef.cookbooks_path = "cookbooks"
      chef.json = {
+     "public_ips" => ["192.168.33.12"],
+     "private_ips" => ["192.168.33.12"],
      "hopdashboard" => {
-	  "public_ips" => ["10.0.2.15"],
-  	  "private_ips" => ["10.0.2.15"],
+	  "public_ips" => ["192.168.33.11"],
+  	  "private_ips" => ["192.168.33.11"],
      },
      "hopagent"  =>    {
                  "agent_user" => "hopagent@sics.se",
@@ -69,10 +78,8 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
                     "bootstrap" => {
                        "public_ips" => ["192.168.33.11"],
                        "private_ips" => ["192.168.33.11"],
-                    {
+                   } 
       },
-     "public_ips" => ["10.0.2.15"],
-     "private_ips" => ["10.0.2.15"],
      }
 
      chef.add_recipe "caracaldb::install"
@@ -85,28 +92,29 @@ config.vm.box_url = "http://goo.gl/Y4aRr"
   config.vm.define "vm3" do |vm3|
     vm3.vm.network :private_network, ip: "192.168.33.13"
     vm3.vm.customize ["modifyvm", :id, "--memory", "2000"]
+    vm3.vm.forward_port 22, 9924
 
 
    vm3.vm.provision :chef_solo, :log_level => :debug do |chef|
      chef.log_level = :debug
      chef.cookbooks_path = "cookbooks"
      chef.json = {
+     "public_ips" => ["192.168.33.13"],
+     "private_ips" => ["192.168.33.13"],
      "hopdashboard" => {
-	  "public_ips" => ["10.0.2.15"],
-  	  "private_ips" => ["10.0.2.15"],
+	  "public_ips" => ["192.168.33.11"],
+  	  "private_ips" => ["192.168.33.11"],
      },
-     "caracaldb"  => {
-                       "bootstrap" => {
-	                   "public_ips" => ["192.168.33.11"],
-  	                   "private_ips" => ["192.168.33.11"],
-                        {
-                     },
      "hopagent"  =>    {
                  "agent_user" => "hopagent@sics.se",
                  "agent_password" => "hopagent"
          },
-     "public_ips" => ["10.0.2.15"],
-     "private_ips" => ["10.0.2.15"],
+     "caracaldb"  => {
+                       "bootstrap" => {
+	                   "public_ips" => ["192.168.33.11"],
+  	                   "private_ips" => ["192.168.33.11"],
+                    } 
+        },
      }
 
      chef.add_recipe "caracaldb::install"
