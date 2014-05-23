@@ -63,17 +63,19 @@ Vagrant::Config.run do |config|
      "private_ips" => ["10.0.2.15"],
      }
 
+      chef.add_recipe "java"
+     
  #     chef.add_recipe "hopagent::install"
       chef.add_recipe "hadoop::install"
 
 
  #     chef.add_recipe "hopagent"
       
-      chef.add_recipe "hadoop::nn"
-      chef.add_recipe "hadoop::dn"
-      chef.add_recipe "hadoop::rm"
-      chef.add_recipe "hadoop::nm"
-      chef.add_recipe "hadoop::jhs"
+ #     chef.add_recipe "hadoop::nn"
+ #     chef.add_recipe "hadoop::dn"
+ #     chef.add_recipe "hadoop::rm"
+ #     chef.add_recipe "hadoop::nm"
+ #     chef.add_recipe "hadoop::jhs"
 
   end 
 
