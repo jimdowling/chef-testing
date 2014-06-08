@@ -12,6 +12,11 @@ if [ "$1" == "destroy" ] ; then
   vagrant destroy
   exit 0
 fi
+if [ "$1" == "ssh" ] ; then
+  cd /tmp/hop
+  vagrant ssh
+  exit 0
+fi
 
 echo "****************"
 echo "Your Vagrant VM will be run from:"
