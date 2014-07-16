@@ -9,11 +9,13 @@
 Vagrant::Config.run do |config|
   # Berkshelf plugin configuration
 #  config.berkshelf.enabled = true 
+#  config.vm.box = "precise64"
+#  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+#  config.vm.box = "raring64server"
+#  config.vm.box_url = "http://goo.gl/Y4aRr"
 
-  #config.vm.box = "raring64server"
-  #config.vm.box_url = "http://goo.gl/Y4aRr"
-  config.vm.box = "salamander"
-  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-13.10_chef-provisionerless.box"
+  config.vm.box = "14_04" 
+  config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
 
  config.vm.customize ["modifyvm", :id, "--memory", 7000]
  config.vm.customize ["modifyvm", :id, "--cpus", "1"]
