@@ -72,7 +72,7 @@ Vagrant::Config.run do |config|
      },
      "mysql"  =>    {
                  "user" => "kthfs",
-                 "user_password" => "kthfs",
+                 "password" => "kthfs",
  		 "server_debian_password" => "kthfs",
 		 "server_root_password" => "kthfs",
 		 "server_repl_password" => "kthfs",
