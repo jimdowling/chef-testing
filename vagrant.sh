@@ -2,11 +2,6 @@
 
 set -e
 
-if [ $# -ne 1 ] ; then
- echo "usage: $0 cookbook"
- echo "usage: $0 destroy"
- exit 1
-fi
 if [ "$1" == "destroy" ] ; then
   cd /tmp/hop
   vagrant destroy
@@ -22,7 +17,7 @@ echo "****************"
 echo "Your Vagrant VM will be run from:"
 echo "/tmp/hop"
 echo "****************"
-cookbook=$1
+cookbook=collectd
 
 pushd .
 
@@ -39,7 +34,20 @@ fi
 cd $dest
 rm -rf /tmp/hop
 mkdir -p /tmp/hop
+rm Berksfile.lock
 berks vendor /tmp/hop/cookbooks
+popd
+pushd .
+cd ../hopdashboard-chef
+rm Berksfile.lock
+rm -rf /tmp/dashy
+berks vendor /tmp/dashy
+cd ../hop-chef
+rm -rf /tmp/hopsy
+rm Berksfile.lock
+berks vendor /tmp/hopsy
+cp -rf /tmp/dashy/* /tmp/hop/cookbooks/
+cp -rf /tmp/hopsy/* /tmp/hop/cookbooks/
 popd
 cp Vagrantfile.${cookbook} /tmp/hop/Vagrantfile
 cd /tmp/hop

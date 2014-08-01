@@ -18,7 +18,7 @@ Vagrant::Config.run do |config|
   config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
 
  config.vm.customize ["modifyvm", :id, "--memory", 7000]
- config.vm.customize ["modifyvm", :id, "--cpus", "1"]
+ config.vm.customize ["modifyvm", :id, "--cpus", "2"]
  config.vm.network :bridged
 # Mysql server port
   config.vm.forward_port 22, 19090
@@ -67,16 +67,9 @@ Vagrant::Config.run do |config|
      chef.log_level = :debug
      chef.cookbooks_path = "cookbooks"
      chef.json = {
-     "btsync" =>	{
-     		 "bootstrap" => "true",
-                 "ndb" =>      { 
-	  	       "leechers" => ["10.0.2.15"],
-	  	       "seeder_secret" => "AY27AAZKTKO3GONE6PBCZZRA6MKGRKBX2",
-	  	       "leecher_secret" => "BTHKJKK4PIPIOJZ7GITF2SJ2IYDLSSJVY",
-	       },
-          },
      "mysql" => {
-                    "server_root_password" => "kthfs"
+                    "user" => "kthfs",
+                    "password" => "kthfs"
           },
      "ndb" => {
           "mgmd" => { 
@@ -105,6 +98,7 @@ Vagrant::Config.run do |config|
      },
      "public_ips" => ["10.0.2.15"],
      "private_ips" => ["10.0.2.15"],
+     "vagrant" => "enabled",
      "collectd"  =>    {
 # DN - jmx metrics disabled for hdfs 2.2. Now available at REST api http://localhost:50075/jmx via JSON
      		 "clients" => ["mysqld","nn", "rm", "nm"],
@@ -112,8 +106,8 @@ Vagrant::Config.run do |config|
      		 "public_ips" => "[10.0.2.15]"
          },
      "hopagent"  =>    {
-                 "agent_user" => "hopagent@sics.se",
-                 "agent_password" => "hopagent"
+                 "user" => "hopagent@sics.se",
+                 "password" => "hopagent"
          },
 
      "hop"  =>    {
@@ -162,10 +156,10 @@ Vagrant::Config.run do |config|
       chef.add_recipe "hop::rm"
       chef.add_recipe "hop::nm"
       chef.add_recipe "hop::jhs"
-       chef.add_recipe "collectd::nn"
-       chef.add_recipe "collectd::rm"
-       chef.add_recipe "collectd::nm"
-
+      chef.add_recipe "collectd::nn"
+      chef.add_recipe "collectd::rm"
+      chef.add_recipe "collectd::nm"
+      chef.add_recipe "collectd::mysqld"
   end 
 
 end
