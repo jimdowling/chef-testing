@@ -34,17 +34,17 @@ fi
 cd $dest
 rm -rf /tmp/hop
 mkdir -p /tmp/hop
-rm Berksfile.lock
+rm -rf Berksfile.lock
 berks vendor /tmp/hop/cookbooks
 popd
 pushd .
 cd ../hopdashboard-chef
-rm Berksfile.lock
+rm -rf Berksfile.lock
 rm -rf /tmp/dashy
 berks vendor /tmp/dashy
 cd ../hop-chef
 rm -rf /tmp/hopsy
-rm Berksfile.lock
+rm -rf Berksfile.lock
 berks vendor /tmp/hopsy
 cp -rf /tmp/dashy/* /tmp/hop/cookbooks/
 cp -rf /tmp/hopsy/* /tmp/hop/cookbooks/
