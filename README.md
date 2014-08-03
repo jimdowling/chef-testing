@@ -1,18 +1,21 @@
 chef-testing
 ============
 
-To test a cookbook, run:
+You can test centos, by running:
+cp Vagrantfile.collectd.centos Vagrantfile.collectd
 
-./vagrant.sh COOKBOOK_NAME
+You can test ubuntu, by running:
+cp Vagrantfile.collectd.ubuntu Vagrantfile.collectd
 
-e.g., 
-./vagrant.sh ndb
+To test the system on vagrant, run:
 
-To destroy the VM, run:
+./vagrant.sh 
+
+To kill the VM:
 ./vagrant destroy
 
 
-If it succeeds, the vagrant machine can be found in:
+If vagrant succeeds, the VM can be found in:
 /tmp/hop
 
 To ssh into the VM, run:
