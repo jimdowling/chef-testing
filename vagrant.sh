@@ -11,6 +11,9 @@ if [ "$1" == "ssh" ] ; then
   cd /tmp/hop
   vagrant ssh
   exit 0
+elif [ $# -gt 0 ] ; then
+  echo "Usage: <prog> [destroy|ssh]"
+  exit 2
 fi
 
 echo "****************"

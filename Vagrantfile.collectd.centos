@@ -106,10 +106,15 @@ Vagrant::Config.run do |config|
      		 "public_ips" => "[10.0.2.15]"
          },
      "hopagent"  =>    {
-                 "user" => "hopagent@sics.se",
-                 "password" => "hopagent"
+                 "rest_api" => {
+		        "user" => "hopagent@sics.se",
+                        "password" => "hopagent"
+                 },
+                 "dashboard" => {
+		        "user" => "kthfsagent@sics.se",
+                        "password" => "kthfsagent"
+                 }
          },
-
      "hop"  =>    {
      	         "cluster" => "vagrant",
                  "hostid" => "10",
