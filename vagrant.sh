@@ -29,9 +29,9 @@ dest=/tmp/${cookbook}-chef
 
 rm -rf $dest
 cd /tmp
-git clone https://github.com/hopstart/$cookbook-chef.git
+git clone https://github.com/hopshadoop/$cookbook-chef.git
 if [ ! -d $dest ] ; then
- echo "Couldn't find repo: https://github.com/hopstart/$cookbook-chef.git"
+ echo "Couldn't find repo: https://github.com/hopshadoop/$cookbook-chef.git"
  exit 2
 fi
 cd $dest
@@ -41,11 +41,16 @@ rm -rf Berksfile.lock
 berks vendor /tmp/hop/cookbooks
 popd
 pushd .
-cd ../hopdashboard-chef
+cd ..
+rm -rf hopshub-chef
+git clone https://github.com/hopshadoop/hopshub-chef.git
+rm -rf hops-hadoop-chef
+git clone https://github.com/hopshadoop/hops-hadoop-chef.git
+cd hopshub-chef
 rm -rf Berksfile.lock
 rm -rf /tmp/dashy
 berks vendor /tmp/dashy
-cd ../hop-chef
+cd ../hops-hadoop-chef
 rm -rf /tmp/hopsy
 rm -rf Berksfile.lock
 berks vendor /tmp/hopsy

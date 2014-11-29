@@ -7,8 +7,6 @@
 #Vagrant.require_plugin "vagrant-berkshelf"
 
 Vagrant::Config.run do |config|
-  # Berkshelf plugin configuration
-#  config.berkshelf.enabled = true 
 
 # config.vm.box = "precise64"
 #  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
@@ -37,6 +35,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 4043, 4043
   config.vm.forward_port 4044, 4044
   config.vm.forward_port 4045, 4045
+  config.vm.forward_port 20888,20888
 
   #Collectd network plugin
   config.vm.forward_port 25826,55826,{ :protocol => "udp"}
@@ -92,7 +91,11 @@ Vagrant::Config.run do |config|
           "private_ips" => ["10.0.2.15"],
           "enabled" => "true",
      },
-     "hopdashboard" => {
+     "kmon" => {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+     },
+     "hopshub" => {
 	  "public_ips" => ["10.0.2.15"],
   	  "private_ips" => ["10.0.2.15"],
      },
@@ -105,17 +108,12 @@ Vagrant::Config.run do |config|
      		 "private_ips" => "[10.0.2.15]",
      		 "public_ips" => "[10.0.2.15]"
          },
-     "hopagent"  =>    {
-                 "rest_api" => {
-		        "user" => "hopagent@sics.se",
-                        "password" => "hopagent"
-                 },
-                 "dashboard" => {
-		        "user" => "kthfsagent@sics.se",
-                        "password" => "kthfsagent"
-                 }
+     "kagent"  =>    {
+	  "public_ips" => ["10.0.2.15"],
+  	  "private_ips" => ["10.0.2.15"],
+  	  "enabled" => "true",
          },
-     "hop"  =>    {
+     "hops"  =>    {
      	         "cluster" => "vagrant",
                  "hostid" => "10",
 		 "rm" =>    { 
@@ -136,14 +134,14 @@ Vagrant::Config.run do |config|
           },
      }
 
-      chef.add_recipe "hopagent::install"
+      chef.add_recipe "kagent::install"
       chef.add_recipe "ndb::install"
       chef.add_recipe "collectd::install"
-      chef.add_recipe "hopdashboard::install"
-      chef.add_recipe "hop::install"
+      chef.add_recipe "hopshub::install"
+      chef.add_recipe "hops::install"
 
 
-      chef.add_recipe "hopagent"
+      chef.add_recipe "kagent"
       
       chef.add_recipe "collectd::server"
 
@@ -152,15 +150,15 @@ Vagrant::Config.run do |config|
       chef.add_recipe "ndb::mysqld"
       chef.add_recipe "ndb::memcached"
 
-       chef.add_recipe "collectd::mysqld"
+      chef.add_recipe "collectd::mysqld"
 
-      chef.add_recipe "hopdashboard"
+      chef.add_recipe "hopshub"
 
-      chef.add_recipe "hop::nn"
-      chef.add_recipe "hop::dn"
-      chef.add_recipe "hop::rm"
-      chef.add_recipe "hop::nm"
-      chef.add_recipe "hop::jhs"
+      chef.add_recipe "hops::nn"
+      chef.add_recipe "hops::dn"
+      chef.add_recipe "hops::rm"
+      chef.add_recipe "hops::nm"
+      chef.add_recipe "hops::jhs"
       chef.add_recipe "collectd::nn"
       chef.add_recipe "collectd::rm"
       chef.add_recipe "collectd::nm"
