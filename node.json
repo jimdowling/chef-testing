@@ -1,0 +1,48 @@
+{
+  "hadoop": {
+     "nn": {
+        "private_ips": ["193.10.66.125"]
+     },
+     "dn": {
+        "private_ips": ["193.10.66.125"]
+     },
+     "rm": {
+        "private_ips": ["193.10.66.125"]
+     },
+     "nm": {
+        "private_ips": ["193.10.66.125"]
+     },
+     "jhs": {
+        "private_ips": ["193.10.66.125"]
+     },
+     "cluster": "vagrant"
+  },
+  "kmon": {
+     "private_ips": ["193.10.66.125"],
+     "public_ips": ["193.10.66.125"]
+  },
+  "kagent": {
+     "private_ips": ["193.10.66.125"],
+     "public_ips": ["193.10.66.125"]
+  },
+  "hiway": {
+     "private_ips": ["193.10.66.125"],
+     "public_ips": ["193.10.66.125"]
+  },
+  "private_ips": ["193.10.66.125"],
+  "public_ips": ["193.10.66.125"],
+  "vagrant": "enabled",
+  "run_list": [ 
+    "recipe[kagent::install]", 
+    "recipe[hadoop::install]", 
+    "recipe[kagent::default]", 
+    "recipe[hadoop::nn]", 
+    "recipe[hadoop::dn]", 
+    "recipe[hadoop::rm]", 
+    "recipe[hadoop::nm]", 
+    "recipe[hadoop::jhs]", 
+    "recipe[hiway::hadoop]", 
+    "recipe[hiway::install]", 
+    "recipe[hiway::wordcount.cf]"
+  ]
+}
