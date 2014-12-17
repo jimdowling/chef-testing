@@ -15,6 +15,17 @@
      "jhs": {
         "private_ips": ["193.10.66.125"]
      },
+     "hdfs": {
+       "user" : "stig"
+     },
+     "hadoop": {
+          "yarn": {
+             "user" : "stig"
+          },
+          "mr": {
+             "user" : "stig"
+          },
+     },
      "cluster": "vagrant"
   },
   "kmon": {
@@ -27,7 +38,10 @@
   },
   "hiway": {
      "private_ips": ["193.10.66.125"],
-     "public_ips": ["193.10.66.125"]
+     "public_ips": ["193.10.66.125"],
+     "hiway": {
+       "user" : "stig"
+     }
   },
   "private_ips": ["193.10.66.125"],
   "public_ips": ["193.10.66.125"],
