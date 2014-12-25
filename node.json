@@ -4,19 +4,19 @@
   },
   "hadoop": {
      "nn": {
-        "private_ips": ["193.10.66.125"]
+        "private_ips": ["127.0.0.1"]
      },
      "dn": {
-        "private_ips": ["193.10.66.125"]
+        "private_ips": ["127.0.0.1"]
      },
      "rm": {
-        "private_ips": ["193.10.66.125"]
+        "private_ips": ["127.0.0.1"]
      },
      "nm": {
-        "private_ips": ["193.10.66.125"]
+        "private_ips": ["127.0.0.1"]
      },
      "jhs": {
-        "private_ips": ["193.10.66.125"]
+        "private_ips": ["127.0.0.1"]
      },
      "yarn": {
        "user": "jdowling"
@@ -27,22 +27,22 @@
      "cluster": "vagrant"
   },
   "kmon": {
-     "private_ips": ["193.10.66.125"],
-     "public_ips": ["193.10.66.125"]
+     "private_ips": ["127.0.0.1"],
+     "public_ips": ["127.0.0.1"]
   },
   "kagent": {
-     "private_ips": ["193.10.66.125"],
-     "public_ips": ["193.10.66.125"]
+     "private_ips": ["127.0.0.1"],
+     "public_ips": ["127.0.0.1"]
   },
   "hiway": {
-     "private_ips": ["193.10.66.125"],
-     "public_ips": ["193.10.66.125"],
+     "private_ips": ["127.0.0.1"],
+     "public_ips": ["127.0.0.1"],
      "hiway": {
        "user": "jdowling"
      }
   },
-  "private_ips": ["193.10.66.125"],
-  "public_ips": ["193.10.66.125"],
+  "private_ips": ["127.0.0.1"],
+  "public_ips": ["127.0.0.1"],
   "vagrant": "enabled",
   "run_list": [ 
     "recipe[kagent::install]", 
@@ -52,7 +52,6 @@
     "recipe[hadoop::dn]", 
     "recipe[hadoop::rm]", 
     "recipe[hadoop::nm]", 
-    "recipe[hadoop::jhs]", 
     "recipe[hiway::hadoop]", 
     "recipe[hiway::install]", 
     "recipe[hiway::wordcount.cf]"
