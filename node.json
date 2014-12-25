@@ -1,4 +1,7 @@
 {
+  "hdfs": {
+     "user": "jdowling"
+  },
   "hadoop": {
      "nn": {
         "private_ips": ["193.10.66.125"]
@@ -15,16 +18,11 @@
      "jhs": {
         "private_ips": ["193.10.66.125"]
      },
-     "hdfs": {
-       "user" : "jdowling"
+     "yarn": {
+       "user": "jdowling"
      },
-     "hadoop": {
-          "yarn": {
-             "user" : "jdowling"
-          },
-          "mr": {
-             "user" : "jdowling"
-          },
+     "mr": {
+       "user": "jdowling"
      },
      "cluster": "vagrant"
   },
@@ -40,7 +38,7 @@
      "private_ips": ["193.10.66.125"],
      "public_ips": ["193.10.66.125"],
      "hiway": {
-       "user" : "jdowling"
+       "user": "jdowling"
      }
   },
   "private_ips": ["193.10.66.125"],
