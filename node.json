@@ -16,14 +16,14 @@
         "private_ips": ["193.10.66.125"]
      },
      "hdfs": {
-       "user" : "stig"
+       "user" : "jdowling"
      },
      "hadoop": {
           "yarn": {
-             "user" : "stig"
+             "user" : "jdowling"
           },
           "mr": {
-             "user" : "stig"
+             "user" : "jdowling"
           },
      },
      "cluster": "vagrant"
@@ -40,7 +40,7 @@
      "private_ips": ["193.10.66.125"],
      "public_ips": ["193.10.66.125"],
      "hiway": {
-       "user" : "stig"
+       "user" : "jdowling"
      }
   },
   "private_ips": ["193.10.66.125"],
