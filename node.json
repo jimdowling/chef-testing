@@ -1,6 +1,6 @@
 {
   "hdfs": {
-     "user": "jdowling"
+     "user": "vangelis"
   },
   "hadoop": {
      "nn": {
@@ -19,10 +19,10 @@
         "private_ips": ["127.0.0.1"]
      },
      "yarn": {
-       "user": "jdowling"
+       "user": "vangelis"
      },
      "mr": {
-       "user": "jdowling"
+       "user": "vangelis"
      },
      "cluster": "vagrant"
   },
@@ -34,26 +34,15 @@
      "private_ips": ["127.0.0.1"],
      "public_ips": ["127.0.0.1"]
   },
-  "hiway": {
-     "private_ips": ["127.0.0.1"],
-     "public_ips": ["127.0.0.1"],
-     "hiway": {
-       "user": "jdowling"
-     }
-  },
   "private_ips": ["127.0.0.1"],
   "public_ips": ["127.0.0.1"],
   "vagrant": "enabled",
   "run_list": [ 
-    "recipe[kagent::install]", 
     "recipe[hadoop::install]", 
-    "recipe[kagent::default]", 
     "recipe[hadoop::nn]", 
     "recipe[hadoop::dn]", 
     "recipe[hadoop::rm]", 
     "recipe[hadoop::nm]", 
-    "recipe[hiway::hadoop]", 
-    "recipe[hiway::install]", 
-    "recipe[hiway::wordcount.cf]"
+    "recipe[hadoop::jhs]"
   ]
 }

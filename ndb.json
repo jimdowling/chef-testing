@@ -1,0 +1,42 @@
+{
+  "ndb": {
+     "ndbd": {
+        "private_ips": ["127.0.0.1"]
+     },
+     "mgmd": {
+        "private_ips": ["127.0.0.1"]
+     },
+     "mysqld": {
+        "private_ips": ["127.0.0.1"]
+     },
+     "memcached": {
+        "private_ips": ["127.0.0.1"]
+     },
+     "public_ips": ["127.0.0.1"]
+  },
+  "kagent": {
+     "private_ips": ["127.0.0.1"],
+     "public_ips": ["127.0.0.1"]
+  },
+  "private_ips": ["127.0.0.1"],
+  "public_ips": ["127.0.0.1"],
+  },
+  "kmon": {
+     "private_ips": ["127.0.0.1"],
+     "public_ips": ["127.0.0.1"]
+  },
+  "kagent": {
+     "private_ips": ["127.0.0.1"],
+     "public_ips": ["127.0.0.1"]
+  },
+  "private_ips": ["127.0.0.1"],
+  "public_ips": ["127.0.0.1"],
+  "ndb": "enabled",
+  "run_list": [ 
+    "recipe[ndb::install]", 
+    "recipe[ndb::mgmd]", 
+    "recipe[ndb::ndbd]", 
+    "recipe[ndb::mysqld]", 
+    "recipe[ndb::memcached]"
+  ]
+}
