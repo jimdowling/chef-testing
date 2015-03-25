@@ -1,4 +1,7 @@
 {
+  "hdfs": {
+     "user" : "stig"
+  },
   "hadoop": {
      "nn": {
         "private_ips": ["193.10.66.125"]
@@ -15,16 +18,11 @@
      "jhs": {
         "private_ips": ["193.10.66.125"]
      },
-     "hdfs": {
-       "user" : "stig"
-     },
-     "hadoop": {
-          "yarn": {
-             "user" : "stig"
-          },
-          "mr": {
-             "user" : "stig"
-          },
+     "yarn": {
+        "user" : "stig"
+      },
+     "mr": {
+        "user" : "stig"
      },
      "cluster": "vagrant"
   },
